@@ -25,6 +25,24 @@ The backend stores only **ciphertext** (zero-knowledge).
 
 See: `docs/threat-model.md` and `docs/crypto-design.md`.
 
+## Repository layout
+- `packages/webapp` — Telegram WebApp (client-side crypto + UI)
+- `packages/bot` — Telegram bot (entry point + export helpers)
+- `packages/backend` — API for storing encrypted vault blobs
+- `packages/crypto` — shared crypto package (KDF/AEAD/TOTP)
+- `infra/` — docker-compose + nginx + postgres
+
+## Quick start (self-host)
+### 1) Configure environment
+Copy `.env.example` to `.env` and set:
+- `BOT_TOKEN`
+- `WEBAPP_URL`
+- `JWT_SECRET`
+- Postgres credentials
+
+### 2) Run with Docker
+```bash
+docker compose -f infra/docker-compose.yml up -d --build
 
 ## License
 
