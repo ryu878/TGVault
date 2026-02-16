@@ -6,6 +6,134 @@ TG Vault is an open-source password manager that runs as a Telegram WebApp (Mini
 Telegram and the server are treated as **untrusted**: secrets are encrypted/decrypted **on the client**.
 The backend stores only **ciphertext** (zero-knowledge).
 
+## Project Structure
+
+```bash
+tg-vault/
+├─ .github/
+│  ├─ workflows/
+│  │  ├─ ci.yml
+│  │  ├─ codeql.yml
+│  │  └─ release.yml
+│  ├─ ISSUE_TEMPLATE/
+│  │  ├─ bug_report.md
+│  │  └─ feature_request.md
+│  └─ PULL_REQUEST_TEMPLATE.md
+│
+├─ docs/
+│  ├─ threat-model.md
+│  ├─ crypto-design.md
+│  ├─ vault-format.md
+│  ├─ api.md
+│  ├─ webapp.md
+│  └─ self-hosting.md
+│
+├─ infra/
+│  ├─ docker-compose.yml
+│  ├─ docker-compose.dev.yml
+│  ├─ nginx/
+│  │  ├─ nginx.conf
+│  │  └─ sites-enabled/
+│  │     └─ tg-vault.conf
+│  └─ postgres/
+│     └─ init.sql
+│
+├─ packages/
+│  ├─ common/
+│  │  ├─ package.json
+│  │  ├─ tsconfig.json
+│  │  └─ src/
+│  │     ├─ types.ts
+│  │     ├─ schema.ts
+│  │     └─ constants.ts
+│  │
+│  ├─ crypto/
+│  │  ├─ package.json
+│  │  ├─ tsconfig.json
+│  │  └─ src/
+│  │     ├─ index.ts
+│  │     ├─ kdf.ts
+│  │     ├─ aead.ts
+│  │     ├─ vault.ts
+│  │     ├─ totp.ts
+│  │     └─ encoding.ts
+│  │
+│  ├─ webapp/
+│  │  ├─ package.json
+│  │  ├─ vite.config.ts
+│  │  ├─ index.html
+│  │  ├─ public/
+│  │  │  ├─ icon.png
+│  │  │  └─ manifest.json
+│  │  └─ src/
+│  │     ├─ main.tsx
+│  │     ├─ app.tsx
+│  │     ├─ tg/
+│  │     │  ├─ init.ts
+│  │     │  └─ auth.ts
+│  │     ├─ api/
+│  │     │  ├─ client.ts
+│  │     │  └─ vault.ts
+│  │     ├─ store/
+│  │     │  ├─ vaultStore.ts
+│  │     │  └─ settingsStore.ts
+│  │     ├─ ui/
+│  │     │  ├─ components/
+│  │     │  ├─ pages/
+│  │     │  │  ├─ Unlock.tsx
+│  │     │  │  ├─ Vault.tsx
+│  │     │  │  ├─ EntryEdit.tsx
+│  │     │  │  └─ Settings.tsx
+│  │     │  └─ styles.css
+│  │     └─ utils/
+│  │        ├─ clipboard.ts
+│  │        └─ lockTimer.ts
+│  │
+│  ├─ backend/
+│  │  ├─ pyproject.toml        # или package.json если Node
+│  │  ├─ Dockerfile
+│  │  ├─ alembic.ini
+│  │  └─ app/
+│  │     ├─ main.py
+│  │     ├─ config.py
+│  │     ├─ db.py
+│  │     ├─ models.py
+│  │     ├─ schemas.py
+│  │     ├─ auth/
+│  │     │  ├─ telegram.py
+│  │     │  └─ tokens.py
+│  │     ├─ routes/
+│  │     │  ├─ health.py
+│  │     │  └─ vault.py
+│  │     └─ migrations/
+│  │        └─ versions/
+│  │
+│  └─ bot/
+│     ├─ pyproject.toml        # aiogram
+│     ├─ Dockerfile
+│     └─ bot/
+│        ├─ main.py
+│        ├─ config.py
+│        ├─ handlers/
+│        │  ├─ start.py
+│        │  ├─ help.py
+│        │  └─ export.py
+│        ├─ keyboards/
+│        │  └─ webapp.py
+│        └─ services/
+│           └─ backend_api.py
+│
+├─ .env.example
+├─ .editorconfig
+├─ .gitignore
+├─ LICENSE
+├─ SECURITY.md
+├─ CODE_OF_CONDUCT.md
+├─ CONTRIBUTING.md
+├─ README.md
+└─ Makefile
+```
+
 ## Features
 - Password vault (create / view / edit / search)
 - TOTP (2FA) generated locally in the WebApp
