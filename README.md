@@ -90,7 +90,7 @@ tg-vault/
 │  │        └─ lockTimer.ts
 │  │
 │  ├─ backend/
-│  │  ├─ pyproject.toml        # или package.json если Node
+│  │  ├─ pyproject.toml
 │  │  ├─ Dockerfile
 │  │  ├─ alembic.ini
 │  │  └─ app/
@@ -109,7 +109,7 @@ tg-vault/
 │  │        └─ versions/
 │  │
 │  └─ bot/
-│     ├─ pyproject.toml        # aiogram
+│     ├─ pyproject.toml
 │     ├─ Dockerfile
 │     └─ bot/
 │        ├─ main.py
