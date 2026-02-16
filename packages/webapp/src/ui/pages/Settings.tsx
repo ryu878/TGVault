@@ -4,7 +4,7 @@ import { useSettingsStore } from "../../store/settingsStore";
 
 export default function Settings() {
   const navigate = useNavigate();
-  const lock = useVaultStore((s) => s.lock);
+  const { lock, exportToFile } = useVaultStore();
   const { lockTimeoutMinutes, setLockTimeout, theme, setTheme } = useSettingsStore();
 
   return (
@@ -32,6 +32,14 @@ export default function Settings() {
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
+      </div>
+      <div className="card">
+        <p style={{ margin: "0 0 12px", color: "var(--text-secondary)", fontSize: 14 }}>
+          Download an encrypted backup. Restore by importing on another device with the same master password.
+        </p>
+        <button className="btn" onClick={exportToFile} style={{ background: "var(--bg)" }}>
+          Export backup
+        </button>
       </div>
       <button className="btn" onClick={lock} style={{ marginTop: 20, background: "var(--danger)", width: "100%" }}>
         Lock vault

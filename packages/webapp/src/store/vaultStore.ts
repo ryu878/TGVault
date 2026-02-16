@@ -16,6 +16,7 @@ interface VaultState {
   unlock: (password: string) => Promise<boolean>;
   lock: () => void;
   sync: () => Promise<void>;
+  exportToFile: () => void;
   addEntry: (entry: Partial<Omit<VaultEntry, "id" | "createdAt" | "updatedAt">>) => void;
   updateEntry: (id: string, entry: Partial<VaultEntry>) => void;
   deleteEntry: (id: string) => void;
@@ -84,6 +85,23 @@ export const useVaultStore = create<VaultState>((set, get) => ({
       set({ error: null });
     } catch (e) {
       set({ error: e instanceof Error ? e.message : "Sync failed" });
+    }
+  },
+
+  exportToFile: () => {
+    const { vault, _password } = get();
+    if (!vault || !_password) return;
+    try {
+      const ciphertext = encryptVault(vault, _password);
+      const blob = new Blob([ciphertext], { type: "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `tgvault-backup-${new Date().toISOString().slice(0, 10)}.bin`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      set({ error: e instanceof Error ? e.message : "Export failed" });
     }
   },
 

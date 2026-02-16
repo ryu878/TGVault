@@ -63,7 +63,7 @@ tg-vault/
 │  │  ├─ vite.config.ts
 │  │  ├─ index.html
 │  │  ├─ public/
-│  │  │  ├─ icon.png
+│  │  │  ├─ icon.svg
 │  │  │  └─ manifest.json
 │  │  └─ src/
 │  │     ├─ main.tsx
@@ -93,6 +93,9 @@ tg-vault/
 │  │  ├─ pyproject.toml
 │  │  ├─ Dockerfile
 │  │  ├─ alembic.ini
+│  │  ├─ migrations/
+│  │  │  ├─ env.py
+│  │  │  └─ versions/
 │  │  └─ app/
 │  │     ├─ main.py
 │  │     ├─ config.py
@@ -105,8 +108,6 @@ tg-vault/
 │  │     ├─ routes/
 │  │     │  ├─ health.py
 │  │     │  └─ vault.py
-│  │     └─ migrations/
-│  │        └─ versions/
 │  │
 │  └─ bot/
 │     ├─ pyproject.toml

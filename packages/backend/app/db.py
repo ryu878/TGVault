@@ -14,7 +14,10 @@ def _make_async_url(url: str) -> str:
 
 
 config = get_config()
-engine = create_async_engine(_make_async_url(config.database_url), echo=False)
+engine = create_async_engine(
+    _make_async_url(config.database_url),
+    echo=False,
+)
 AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 

@@ -28,11 +28,10 @@ docker-up:
 docker-down:
 	docker compose -f infra/docker-compose.yml down
 
-# Lint (placeholder)
+# Lint
 lint:
-	cd packages/webapp && pnpm run lint 2>/dev/null || true
+	cd packages/webapp && pnpm run lint
 
-# Test (placeholder)
+# Test
 test:
-	cd packages/backend && pytest -v 2>/dev/null || true
-	cd packages/bot && pytest -v 2>/dev/null || true
+	cd packages/backend && pytest -v && cd ../bot && pytest -v
