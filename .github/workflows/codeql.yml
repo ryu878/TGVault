@@ -1,0 +1,67 @@
+# CodeQL Security Analysis
+# Runs automated code scanning for security vulnerabilities
+name: CodeQL
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: "0 6 * * 1" # Weekly on Monday 06:00 UTC
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["javascript-typescript", "python"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Setup pnpm (for JS/TS)
+        if: matrix.language == 'javascript-typescript'
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js (for JS/TS)
+        if: matrix.language == 'javascript-typescript'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install webapp deps (for JS/TS)
+        if: matrix.language == 'javascript-typescript'
+        run: |
+          cd packages/webapp
+          pnpm install
+
+      - name: Install Python deps (for Python)
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend deps (for Python)
+        if: matrix.language == 'python'
+        run: |
+          cd packages/backend
+          pip install -e .
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

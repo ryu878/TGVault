@@ -1,0 +1,13 @@
+{
+  "name": "tgvault",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@8.15.0",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:webapp": "pnpm --filter @tgvault/webapp dev",
+    "dev:backend": "cd packages/backend && uvicorn app.main:app --reload",
+    "dev:bot": "cd packages/bot && python -m bot.main"
+  }
+}

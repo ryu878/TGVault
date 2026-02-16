@@ -1,0 +1,43 @@
+# TGVault Development Docker Compose
+# Runs Postgres and optionally backend/bot for local dev
+# WebApp: run `pnpm dev` in packages/webapp
+# Usage: docker compose -f infra/docker-compose.dev.yml up -d
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: tgvault
+      POSTGRES_PASSWORD: tgvault
+      POSTGRES_DB: tgvault
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tgvault"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Optional: run backend in Docker during dev
+  backend:
+    build:
+      context: ..
+      dockerfile: packages/backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://tgvault:tgvault@postgres:5432/tgvault
+      JWT_SECRET: dev-secret-change-in-production
+      TELEGRAM_BOT_TOKEN: ${BOT_TOKEN:-}
+      WEBAPP_URL: ${WEBAPP_URL:-https://localhost:5173}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - full
+
+volumes:
+  postgres_dev_data:
