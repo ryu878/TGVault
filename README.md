@@ -6,6 +6,25 @@ TG Vault is an open-source password manager that runs as a Telegram WebApp (Mini
 Telegram and the server are treated as **untrusted**: secrets are encrypted/decrypted **on the client**.
 The backend stores only **ciphertext** (zero-knowledge).
 
+## Features
+- Password vault (create / view / edit / search)
+- TOTP (2FA) generated locally in the WebApp
+- One encrypted vault blob synced via backend (no Dropbox)
+- Self-host friendly (Docker Compose)
+
+## Security model (read first)
+- Your **master password never leaves your device**
+- Vault is encrypted locally using:
+  - KDF: Argon2id
+  - AEAD: XChaCha20-Poly1305
+- Backend stores only ciphertext + minimal metadata
+
+⚠️ Limitations:
+- Does not protect against malware/keyloggers on your device
+- Telegram bots are not end-to-end encrypted; we rely on client-side crypto
+
+See: `docs/threat-model.md` and `docs/crypto-design.md`.
+
 
 ## License
 
