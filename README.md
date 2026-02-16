@@ -43,6 +43,42 @@ Copy `.env.example` to `.env` and set:
 ### 2) Run with Docker
 ```bash
 docker compose -f infra/docker-compose.yml up -d --build
+```
+### 3) Telegram bot setup
+
+Create a bot via @BotFather
+
+Set WebApp domain (BotFather -> /setdomain) to your WEBAPP_URL domain
+
+Open chat with your bot -> /start -> "Open Vault"
+
+## Development
+### WebApp
+
+```bash
+cd packages/webapp
+pnpm i
+pnpm dev
+```
+
+### Backend
+
+```bash
+cd packages/backend
+# run locally or via docker-compose.dev.yml
+```
+
+### Bot
+
+```bash
+cd packages/bot
+# run locally or via docker-compose.dev.yml
+```
+
+## Contributing
+
+PRs welcome. Please read CONTRIBUTING.md.
+Security issues: see SECURITY.md.
 
 ## License
 
