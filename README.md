@@ -184,6 +184,8 @@ Open chat with your bot -> /start -> "Open Vault"
 ## Development
 ### WebApp
 
+Requires **Node.js 18+** (e.g. `nvm use` if using `.nvmrc`).
+
 ```bash
 cd packages/webapp
 pnpm i
